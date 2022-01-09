@@ -8,7 +8,7 @@ def cleanup():
     nono = ["fuck", "shit", "dick", "cock", "bastard", "penis", "bitch", "vagina", "pussy", "piss", "arse", " ass ",
             "bollocks", "bugger", "crap", "cunt", "effing", "frigger", "prick", "slut", "nigg", "whore",
             "retard", " tit ", " titty ", "wanker", " asshole ", " asswipe ", " nazi ", " hitler ", "fcuk", " sex",
-            "fuk"]
+            "fuk", "porn"]
 
     data_lower = data.copy()
     data_lower['body'] = data['body'].str.lower()
@@ -17,7 +17,7 @@ def cleanup():
     almost_clean = data_lower[~data_lower["body"].str.contains('|'.join(nono))]
     clean = almost_clean[~data_lower["title"].str.contains('|'.join(nono))]
 
-    clean.to_json("clean_reddit_jokes.json")
+    clean.to_json("clean_reddit_jokes.json", "records")
 
 
 def frequency():
@@ -26,8 +26,7 @@ def frequency():
     words = {}
 
     for d in body:
-        split = re.split(r',.?!', d)
-        print(split)
+        split = re.split('\s+| ; |, |\n |! |: |\? |\*', d)
         for word in split:
             if word in words:
                 words[word] += 1
